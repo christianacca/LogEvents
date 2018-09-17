@@ -5,7 +5,14 @@
 #  variables:
 #    BuildConfiguration: Release
 
+resources:
+- repo: self
+
 name: $(BuildID)
+
+trigger:
+- master
+- feature/*
 
 queue:
   name: Hosted VS2017
@@ -48,3 +55,11 @@ steps:
     nobuild: true
     configuration: '$(BuildConfiguration)'
 
+
+- task: NuGetCommand@2
+  displayName: Push
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: 'nuget-dotnet'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

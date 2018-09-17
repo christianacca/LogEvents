@@ -3,7 +3,7 @@
 namespace CcAcca.LogEvents.Tests
 {
     [TestFixture]
-    public class LogEventInfo_ToString
+    public class ToString
     {
         [Test]
         public void EventName_Only()
@@ -26,7 +26,7 @@ namespace CcAcca.LogEvents.Tests
             {
                 Properties =
                 {
-                    { "Prop1", "Value 1" }
+                    ["Prop1"] = "Value 1"
                 }
             };
             Assert.That(evt.ToString(), Is.EqualTo("Event: Test |Prop1: Value 1"));
@@ -39,7 +39,7 @@ namespace CcAcca.LogEvents.Tests
             {
                 Properties =
                 {
-                    { "Prop1", "Value 1" }
+                    ["Prop1"] = "Value 1"
                 }
             };
             Assert.That(evt.ToString(), Is.EqualTo("Event: App.Test |App.Prop1: Value 1"));
@@ -52,39 +52,11 @@ namespace CcAcca.LogEvents.Tests
             {
                 Properties =
                 {
-                    { "Prop1", "Value 1" },
-                    { "Prop2", "Value 2" }
+                    ["Prop1"] = "Value 1",
+                    ["Prop2"] = "Value 2"
                 }
             };
             Assert.That(evt.ToString(), Is.EqualTo("Event: Test |Prop1: Value 1 |Prop2: Value 2"));
-        }
-
-        [Test]
-        public void Properties_null_value_only()
-        {
-            var evt = new LogEventInfo("Test")
-            {
-                Properties =
-                {
-                    { "Prop1", null }
-                }
-            };
-            Assert.That(evt.ToString(), Is.EqualTo("Event: Test"));
-        }
-
-
-        [Test]
-        public void Properties_one_null_value()
-        {
-            var evt = new LogEventInfo("Test")
-            {
-                Properties =
-                {
-                    { "Prop1", null },
-                    { "Prop2", "Value 2" },
-                }
-            };
-            Assert.That(evt.ToString(), Is.EqualTo("Event: Test |Prop2: Value 2"));
         }
 
         [Test]
@@ -94,7 +66,7 @@ namespace CcAcca.LogEvents.Tests
             {
                 Metrics =
                 {
-                    { "M1", 5 }
+                    ["M1"] = 5
                 }
             };
             Assert.That(evt.ToString(), Is.EqualTo("Event: Test |M1: 5"));
@@ -107,7 +79,7 @@ namespace CcAcca.LogEvents.Tests
             {
                 Metrics =
                 {
-                    { "M1", 5 }
+                    ["M1"] = 5
                 }
             };
             Assert.That(evt.ToString(), Is.EqualTo("Event: App.Test |App.M1: 5"));
@@ -120,8 +92,8 @@ namespace CcAcca.LogEvents.Tests
             {
                 Metrics =
                 {
-                    { "M1", 5 },
-                    { "M2", 1.589 },
+                    ["M1"] = 5,
+                    ["M2"] = 1.589
                 }
             };
             Assert.That(evt.ToString(), Is.EqualTo("Event: Test |M1: 5 |M2: 1.589"));
@@ -134,13 +106,13 @@ namespace CcAcca.LogEvents.Tests
             {
                 Metrics =
                 {
-                    { "M1", 5 },
-                    { "M2", 1.589 },
+                    ["M1"] = 5,
+                    ["M2"] = 1.589
                 },
                 Properties =
                 {
-                    { "Prop1", "Value 1" },
-                    { "Prop2", "Value 2" }
+                    ["Prop1"] = "Value 1",
+                    ["Prop2"] = "Value 2"
                 }
             };
             Assert.That(evt.ToString(), Is.EqualTo("Event: Test |Prop1: Value 1 |Prop2: Value 2 |M1: 5 |M2: 1.589"));
@@ -153,13 +125,13 @@ namespace CcAcca.LogEvents.Tests
             {
                 Metrics =
                 {
-                    { "M1", 5 },
-                    { "M2", 1.589 },
+                    ["M1"] = 5,
+                    ["M2"] = 1.589
                 },
                 Properties =
                 {
-                    { "Prop1", "Value 1" },
-                    { "Prop2", "Value 2" }
+                    ["Prop1"] = "Value 1",
+                    ["Prop2"] = "Value 2"
                 }
             };
             Assert.That(evt.ToString(), Is.EqualTo("Event: App.Test |App.Prop1: Value 1 |App.Prop2: Value 2 |App.M1: 5 |App.M2: 1.589"));

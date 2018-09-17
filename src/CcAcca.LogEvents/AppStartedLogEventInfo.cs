@@ -6,7 +6,7 @@ namespace CcAcca.LogEvents
     {
         private const string AppStartupMetricKey = "StartupMsec";
 
-        public AppStartedLogEventInfo(DateTime? startupTime) : base("Started", LogPrefixes.AppEvent)
+        public AppStartedLogEventInfo(DateTime? startupTime = null) : base("Started", LogPrefixes.AppEvent)
         {
             if (startupTime.HasValue)
             {

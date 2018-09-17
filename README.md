@@ -21,7 +21,7 @@ To build and run tests you can use:
 
 ## CI server
 
-Azure Devops (formally vsts) is used to run the dotnet cli tool to perform the build and test. See the [yam build definition](.vsts-ci.yml) for details.
+Azure Devops (formally vsts) is used to run the dotnet cli tool to perform the build and test. See the [yam build definition](azure-pipelines.yml) for details.
 
 Notes:
 * The CI build is configured to run on every commit to any branch

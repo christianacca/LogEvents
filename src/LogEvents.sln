@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CcAcca.LogEvents", "CcAcca.LogEvents\CcAcca.LogEvents.csproj", "{F515E0A0-A265-4ED9-84D0-99B82CED2036}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CcAcca.LogEvents", "CcAcca.LogEvents\CcAcca.LogEvents.csproj", "{F515E0A0-A265-4ED9-84D0-99B82CED2036}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CcAcca.LogEvents.Tests", "CcAcca.LogEvents.Tests\CcAcca.LogEvents.Tests.csproj", "{80160A3E-9DA6-44E5-887B-A95360D09F7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CcAcca.LogEvents.Tests", "CcAcca.LogEvents.Tests\CcAcca.LogEvents.Tests.csproj", "{80160A3E-9DA6-44E5-887B-A95360D09F7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4496C1BE-008B-476A-817F-29D05B10BD49}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F515E0A0-A265-4ED9-84D0-99B82CED2036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +46,11 @@ Global
 		{80160A3E-9DA6-44E5-887B-A95360D09F7C}.Release|x64.Build.0 = Release|Any CPU
 		{80160A3E-9DA6-44E5-887B-A95360D09F7C}.Release|x86.ActiveCfg = Release|Any CPU
 		{80160A3E-9DA6-44E5-887B-A95360D09F7C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {024D8E85-FD81-4F80-BC6B-2C3E14166DB0}
 	EndGlobalSection
 EndGlobal

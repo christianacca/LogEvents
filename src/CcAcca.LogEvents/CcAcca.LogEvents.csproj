@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company></Company>
+    <Authors>Christian Crowhurst</Authors>
+    <Description>Simple log event abstractions</Description>
+    <Version>1.0.0</Version>
+    <PackageTags>Logging</PackageTags>
+  </PropertyGroup>
+
+</Project>

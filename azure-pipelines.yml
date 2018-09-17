@@ -1,0 +1,50 @@
+# Assumes you have defined the following variables in the azure devops project:
+# - BuildConfiguration (default value Release)
+
+#
+#  variables:
+#    BuildConfiguration: Release
+
+name: $(BuildID)
+
+queue:
+  name: Hosted VS2017
+  demands: vstest
+
+
+steps:
+- powershell: |
+   [xml] $proj = Get-Item *.csproj | Get-Content -Raw
+   $version = $proj.Project.PropertyGroup.Version
+   Write-Host ('##vso[build.updatebuildnumber]{0}+{1}' -f $version,  $env:BUILD_BUILDNUMBER); 
+  workingDirectory: src/CcAcca.LogEvents
+  displayName: 'Update BuildNumber'
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: src/*.sln
+    feedsToUse: config
+    nugetConfigPath: src/NuGet.config
+
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: src/*.sln
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
+
+
+- task: VSTest@2
+  displayName: Test
+
+
+- task: DotNetCoreCLI@2
+  displayName: Pack
+  inputs:
+    command: pack
+    packagesToPack: src/CcAcca.LogEvents/CcAcca.LogEvents.csproj
+    nobuild: true
+    configuration: '$(BuildConfiguration)'
+

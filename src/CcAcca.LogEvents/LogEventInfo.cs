@@ -30,6 +30,10 @@ namespace CcAcca.LogEvents
 
         public IDictionary<string, double> Metrics => (_metrics = _metrics ?? new Dictionary<string, double>());
 
+        /// <summary>
+        /// Return a string representation of this instance using the
+        /// <see cref="DefaultSerializer"/>
+        /// </summary>
         public override string ToString()
         {
             return DefaultSerializer.Serialize(this);
@@ -37,6 +41,13 @@ namespace CcAcca.LogEvents
 
         private static ILogEventInfoSerializer _defaultSerializer;
 
+        /// <summary>
+        /// The implementation that should be used to return a string
+        /// representation of <see cref="LogEventInfo"/>
+        /// </summary>
+        /// <remarks>
+        /// Typically the string produced will be used in output to text based logs
+        /// </remarks>
         public static ILogEventInfoSerializer DefaultSerializer
         {
             get => (_defaultSerializer = _defaultSerializer ?? new TextLogEventInfoSerializer());
@@ -51,9 +62,10 @@ namespace CcAcca.LogEvents
         private class TextLogEventInfoSerializer : ILogEventInfoSerializer
         {
             private const string EventFieldName = "Event";
-            private const string FieldSeperator = " |";
             private const string FieldTemplate = "{0}: {1}";
             private const string QualifiedTemplate = "{0}.{1}";
+
+            public string TextLogFieldSeperator { get; set; } = " |";
 
             public string Serialize(LogEventInfo source)
             {
@@ -95,7 +107,7 @@ namespace CcAcca.LogEvents
                 sb.AppendFormat(FieldTemplate, EventFieldName, fieldNameSelector(source.Name));
             }
 
-            private static void WriteProperties(LogEventInfo source, Func<string, string> fieldNameSelector,
+            private void WriteProperties(LogEventInfo source, Func<string, string> fieldNameSelector,
                 StringBuilder sb)
             {
                 var values = source._properties
@@ -103,26 +115,26 @@ namespace CcAcca.LogEvents
                 WriteCollection(values, fieldNameSelector, sb);
             }
 
-            private static void WriteMetrics(LogEventInfo source, Func<string, string> fieldNameSelector, StringBuilder sb)
+            private void WriteMetrics(LogEventInfo source, Func<string, string> fieldNameSelector, StringBuilder sb)
             {
                 var values = source._metrics
                     ?.Where(x => !string.IsNullOrWhiteSpace(x.Key)).ToList();
                 WriteCollection(values, fieldNameSelector, sb);
             }
 
-            private static void WriteCollection<T>(List<KeyValuePair<string, T>> values,
+            private void WriteCollection<T>(List<KeyValuePair<string, T>> values,
                 Func<string, string> fieldNameSelector, StringBuilder sb)
             {
                 if (values == null || !values.Any()) return;
 
-                sb.Append(FieldSeperator);
+                sb.Append(TextLogFieldSeperator);
                 for (var i = 1; i <= values.Count; i++)
                 {
                     var entry = values[i-1];
                     sb.AppendFormat(FieldTemplate, fieldNameSelector(entry.Key), entry.Value);
                     if (i < values.Count)
                     {
-                        sb.Append(FieldSeperator);
+                        sb.Append(TextLogFieldSeperator);
                     }
                 }
             }

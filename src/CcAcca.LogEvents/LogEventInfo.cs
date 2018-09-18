@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CcAcca.LogEvents.Internals;
 
 namespace CcAcca.LogEvents
@@ -8,6 +9,7 @@ namespace CcAcca.LogEvents
     {
         private IDictionary<string, string> _properties;
         private IDictionary<string, double> _metrics;
+        private DynamicMetricsDictionary _dynamicMetrics;
 
         public LogEventInfo(string name, string prefix = null)
         {
@@ -27,7 +29,7 @@ namespace CcAcca.LogEvents
 
         public string FullName { get; }
 
-        public bool HasMetric => _metrics?.Count > 0;
+        public bool HasMetric => _metrics?.Count > 0 || _dynamicMetrics?.Count > 0;
         public bool HasProperty => _properties?.Count > 0;
 
         public string Name { get; }
@@ -38,6 +40,8 @@ namespace CcAcca.LogEvents
         public IDictionary<string, string> Properties => (_properties = _properties ?? new PropertiesDictionary());
 
         public IDictionary<string, double> Metrics => (_metrics = _metrics ?? new MetricsDictionary());
+
+        public IDictionary<string, DynamicMetric> DynamicMetrics => (_dynamicMetrics = _dynamicMetrics ?? new DynamicMetricsDictionary());
 
         private Func<string, string> FieldNameSelector { get; }
 
@@ -58,9 +62,25 @@ namespace CcAcca.LogEvents
 
         public IDictionary<string, double> GetQualifiedMetrics()
         {
-            // todo: cache the result of GetQualifiedCollection and invalidate when Metrics change
+            if (!HasMetric) return null;
 
-            return GetQualifiedCollection(_metrics);
+            // todo: cache the result of GetQualifiedCollection and invalidate when Metrics change
+            var metrics = GetQualifiedCollection(_metrics);
+
+            var dynamicMetrics = GetQualifiedCollection(_dynamicMetrics?.Evaluate());
+
+            if (dynamicMetrics == null)
+            {
+                return metrics;
+            }
+            if (metrics == null)
+            {
+                return dynamicMetrics;
+            }
+
+            return new[] {metrics, dynamicMetrics}
+                .SelectMany(d => d)
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
         public IDictionary<string, string> GetQualifiedProperties()

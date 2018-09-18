@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace CcAcca.LogEvents.Tests
 {
@@ -28,11 +27,11 @@ namespace CcAcca.LogEvents.Tests
         [Test]
         public void AppStarted_supplied_in_Ctor()
         {
-            var appStarted = DateTime.Now.AddMilliseconds(-200);
+            var appStarted = DateTime.Now.AddMinutes(-200);
 
             var evt = new AppStoppedLogEventInfo(appStarted: appStarted);
 
-            Assert.That(evt.TotalRuntime.TotalMilliseconds, Is.EqualTo(200d).Within(3));
+            Assert.That(evt.TotalRuntime.TotalMinutes, Is.EqualTo(200d).Within(0.01));
         }
 
         [Test]

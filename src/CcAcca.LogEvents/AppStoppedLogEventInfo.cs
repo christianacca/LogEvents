@@ -5,7 +5,7 @@ namespace CcAcca.LogEvents
     public class AppStoppedLogEventInfo : LogEventInfo
     {
         private const string ShutdownMetricKey = "ShutdownMsec";
-        private const string TotalRuntimeMetricKey = "TotalRuntimeMsec";
+        private const string RuntimeMetricKey = "RuntimeMinutes";
 
         public AppStoppedLogEventInfo(DateTime? signalTime = null, DateTime? appStarted = null) : base("Stopped", LogPrefixes.AppEvent)
         {
@@ -29,10 +29,10 @@ namespace CcAcca.LogEvents
 
         public TimeSpan TotalRuntime
         {
-            get => Metrics.ContainsKey(TotalRuntimeMetricKey)
-                ? TimeSpan.FromMilliseconds(Metrics[TotalRuntimeMetricKey])
+            get => Metrics.ContainsKey(RuntimeMetricKey)
+                ? TimeSpan.FromMilliseconds(Metrics[RuntimeMetricKey])
                 : TimeSpan.Zero;
-            set => Metrics[TotalRuntimeMetricKey] = Math.Round(value.TotalMilliseconds, 0);
+            set => Metrics[RuntimeMetricKey] = Math.Round(value.TotalMilliseconds, 0);
         }
     }
 }

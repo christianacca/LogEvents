@@ -14,6 +14,7 @@ namespace CcAcca.LogEvents.Tests
             var evt = new AppStartedLogEventInfo(started);
 
             Assert.That(evt.Duration.TotalMilliseconds, Is.EqualTo(200d).Within(3));
+            Assert.That(evt.Metrics["StartupMsec"], Is.EqualTo(200d).Within(3));
         }
 
         [Test]
@@ -22,6 +23,7 @@ namespace CcAcca.LogEvents.Tests
             var evt = new AppStartedLogEventInfo();
 
             Assert.That(evt.Duration, Is.EqualTo(TimeSpan.Zero));
+            Assert.That(evt.Metrics.ContainsKey("StartupMsec"), Is.False);
         }
 
 

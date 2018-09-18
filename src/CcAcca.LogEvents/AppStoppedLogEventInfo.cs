@@ -30,9 +30,9 @@ namespace CcAcca.LogEvents
         public TimeSpan TotalRuntime
         {
             get => Metrics.ContainsKey(RuntimeMetricKey)
-                ? TimeSpan.FromMilliseconds(Metrics[RuntimeMetricKey])
+                ? TimeSpan.FromMinutes(Metrics[RuntimeMetricKey])
                 : TimeSpan.Zero;
-            set => Metrics[RuntimeMetricKey] = Math.Round(value.TotalMilliseconds, 0);
+            set => Metrics[RuntimeMetricKey] = Math.Round(value.TotalMinutes, 2);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace CcAcca.LogEvents.Tests
             var evt = new AppStoppedLogEventInfo(signalTime);
 
             Assert.That(evt.ShutdownDuration.TotalMilliseconds, Is.EqualTo(200d).Within(3));
+            Assert.That(evt.Metrics["ShutdownMsec"], Is.EqualTo(200d).Within(3));
         }
 
         [Test]
@@ -22,6 +23,7 @@ namespace CcAcca.LogEvents.Tests
             var evt = new AppStoppedLogEventInfo();
 
             Assert.That(evt.ShutdownDuration, Is.EqualTo(TimeSpan.Zero));
+            Assert.That(evt.Metrics.ContainsKey("ShutdownMsec"), Is.False);
         }
 
         [Test]
@@ -31,7 +33,8 @@ namespace CcAcca.LogEvents.Tests
 
             var evt = new AppStoppedLogEventInfo(appStarted: appStarted);
 
-            Assert.That(evt.TotalRuntime.TotalMinutes, Is.EqualTo(200d).Within(0.01));
+            Assert.That(evt.TotalRuntime.TotalMinutes, Is.EqualTo(200d));
+            Assert.That(evt.Metrics["RuntimeMinutes"], Is.EqualTo(200d));
         }
 
         [Test]
@@ -40,6 +43,7 @@ namespace CcAcca.LogEvents.Tests
             var evt = new AppStoppedLogEventInfo();
 
             Assert.That(evt.TotalRuntime, Is.EqualTo(TimeSpan.Zero));
+            Assert.That(evt.Metrics.ContainsKey("RuntimeMinutes"), Is.False);
         }
 
         [Test]

@@ -11,9 +11,6 @@ namespace CcAcca.LogEvents
         private IDictionary<string, string> _properties;
         private IDictionary<string, double> _metrics;
 
-        private const string QualifiedTemplate = "{0}.{1}";
-
-
         public LogEventInfo(string name, string prefix = null)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -23,7 +20,11 @@ namespace CcAcca.LogEvents
 
             Name = name;
             Prefix = prefix;
-            FullName = string.IsNullOrWhiteSpace(prefix) ? name : $"{prefix}.{name}";
+            FieldPrefix = string.IsNullOrWhiteSpace(prefix) ? "" : $"{prefix}.";
+            FullName = FieldPrefix + Name;
+
+            Func<string, string> qualified = k => k.StartsWith(FieldPrefix) ? k : FieldPrefix + k;
+            FieldNameSelector = string.IsNullOrWhiteSpace(Prefix) ? k => k : qualified;
         }
 
         public string FullName { get; }
@@ -40,18 +41,18 @@ namespace CcAcca.LogEvents
 
         public IDictionary<string, double> Metrics => (_metrics = _metrics ?? new MetricsDictionary());
 
+        private Func<string, string> FieldNameSelector { get; }
+
+        private string FieldPrefix { get; }
+
         private IDictionary<string, T> GetQualifiedCollection<T>(IDictionary<string, T> values)
         {
             if (values == null) return values;
 
-            Func<string, string> identity = k => k;
-            Func<string, string> qualified = k => string.Format(QualifiedTemplate, Prefix, k);
-            var fieldNameSelector = string.IsNullOrWhiteSpace(Prefix) ? identity : qualified;
-
             var result = new Dictionary<string, T>(values.Count);
             foreach (var entry in values)
             {
-                result[string.Format(fieldNameSelector(entry.Key))] = entry.Value;
+                result[string.Format(FieldNameSelector(entry.Key))] = entry.Value;
             }
 
             return result;
@@ -59,11 +60,15 @@ namespace CcAcca.LogEvents
 
         public IDictionary<string, double> GetQualifiedMetrics()
         {
+            // todo: cache the result of GetQualifiedCollection and invalidate when Metrics change
+
             return GetQualifiedCollection(_metrics);
         }
 
         public IDictionary<string, string> GetQualifiedProperties()
         {
+            // todo: cache the result of GetQualifiedCollection and invalidate when Properties change
+
             return GetQualifiedCollection(_properties);
         }
 

@@ -42,6 +42,34 @@ namespace CcAcca.LogEvents.Tests.LogEventInfoSpecs
         }
 
         [Test]
+        public void Event_and_metric_has_same_Prefix()
+        {
+            var evt = new LogEventInfo("Test", "App")
+            {
+                Metrics =
+                {
+                    ["App.M1"] = 1
+                }
+            };
+            var expected = new Dictionary<string, double> {["App.M1"] = 1};
+            Assert.That(evt.GetQualifiedMetrics(), Is.EquivalentTo(expected));
+        }
+
+        [Test]
+        public void Event_and_metric_has_different_Prefix()
+        {
+            var evt = new LogEventInfo("Test", "App")
+            {
+                Metrics =
+                {
+                    ["Metric.M1"] = 1
+                }
+            };
+            var expected = new Dictionary<string, double> {["App.Metric.M1"] = 1};
+            Assert.That(evt.GetQualifiedMetrics(), Is.EquivalentTo(expected));
+        }
+
+        [Test]
         public void Many_has_Prefix()
         {
             var evt = new LogEventInfo("Test", "App")

@@ -14,7 +14,7 @@ namespace CcAcca.LogEvents.Tests.LogEventInfoSpecs
         }
 
         [Test]
-        public void Properties_one_no_Prefix()
+        public void One_no_Prefix()
         {
             var evt = new LogEventInfo("Test")
             {
@@ -28,7 +28,7 @@ namespace CcAcca.LogEvents.Tests.LogEventInfoSpecs
         }
 
         [Test]
-        public void Properties_one_has_Prefix()
+        public void One_has_Prefix()
         {
             var evt = new LogEventInfo("Test", "App")
             {
@@ -42,7 +42,35 @@ namespace CcAcca.LogEvents.Tests.LogEventInfoSpecs
         }
 
         [Test]
-        public void Properties_many_has_Prefix()
+        public void Event_and_property_has_same_Prefix()
+        {
+            var evt = new LogEventInfo("Test", "App")
+            {
+                Properties =
+                {
+                    ["App.Prop1"] = "Value1"
+                }
+            };
+            var expected = new Dictionary<string, string> { ["App.Prop1"] = "Value1" };
+            Assert.That(evt.GetQualifiedProperties(), Is.EquivalentTo(expected));
+        }
+
+        [Test]
+        public void Event_and_property_has_different_Prefix()
+        {
+            var evt = new LogEventInfo("Test", "App")
+            {
+                Properties =
+                {
+                    ["Props.Prop1"] = "Value1"
+                }
+            };
+            var expected = new Dictionary<string, string> { ["App.Props.Prop1"] = "Value1" };
+            Assert.That(evt.GetQualifiedProperties(), Is.EquivalentTo(expected));
+        }
+
+        [Test]
+        public void Many_has_Prefix()
         {
             var evt = new LogEventInfo("Test", "App")
             {

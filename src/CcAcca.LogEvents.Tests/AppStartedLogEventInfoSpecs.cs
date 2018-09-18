@@ -13,7 +13,7 @@ namespace CcAcca.LogEvents.Tests
 
             var evt = new AppStartedLogEventInfo(started);
 
-            Assert.That(evt.Duration.TotalMilliseconds, Is.EqualTo(200d));
+            Assert.That(evt.Duration.TotalMilliseconds, Is.EqualTo(200d).Within(3));
         }
 
         [Test]
@@ -32,22 +32,5 @@ namespace CcAcca.LogEvents.Tests
 
             Assert.That(evt.Prefix, Is.EqualTo(LogPrefixes.AppEvent));
         }
-
-
-        [Test]
-        public void Should_use_prefix_in_prop_names()
-        {
-            var evt = new AppStartedLogEventInfo
-            {
-                Properties =
-                {
-                    { "AppDomainId", "1" }
-                }
-            };
-
-            Assert.That(evt.ToString(), Contains.Substring("App.AppDomainId: 1"));
-        }
-
-
     }
 }

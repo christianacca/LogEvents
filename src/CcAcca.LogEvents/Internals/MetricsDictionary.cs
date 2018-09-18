@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CcAcca.LogEvents.Internals
 {
-    public class MetricsDictionary: IDictionary<string, double>
+    internal class MetricsDictionary: IDictionary<string, double>
     {
         private IDictionary<string, double> _impl = new Dictionary<string, double>();
 

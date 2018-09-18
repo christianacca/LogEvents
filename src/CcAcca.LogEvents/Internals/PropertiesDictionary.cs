@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CcAcca.LogEvents.Internals
 {
-    public class PropertiesDictionary: IDictionary<string, string>
+    internal class PropertiesDictionary: IDictionary<string, string>
     {
         private IDictionary<string, string> _impl = new Dictionary<string, string>();
 

@@ -1,4 +1,4 @@
-# LogEvents
+# LogEvents [![Build Status](https://dev.azure.com/christianacca/LogEvents/_apis/build/status/LogEvents-CI?branchName=master)](https://dev.azure.com/christianacca/LogEvents/_build/latest?definitionId=4?branchName=master)
 
 Simple log event abstractions
 
